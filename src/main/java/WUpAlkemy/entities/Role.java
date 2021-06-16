@@ -9,6 +9,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+
 import WUpAlkemy.Enum.Rol;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,12 +24,15 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 
 public class Role implements Serializable {
-
 	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
 	@OneToOne
+	@Cascade(CascadeType.ALL)
 	private Account acc;
+
 	private Rol rol;
 }

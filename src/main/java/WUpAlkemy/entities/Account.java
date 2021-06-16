@@ -9,6 +9,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,11 +29,19 @@ public class Account implements Serializable {
 	private Long id;
 
 	@OneToOne
+	@Cascade(CascadeType.ALL)
 	private Role role;
+
+	@OneToOne
+	@Cascade(CascadeType.ALL)
+	private Blogger blogger;
 
 	private String username;
 
 	private String email = username;
 	private String password;
 
+	public void setBlogger(Blogger blogger) {
+		this.blogger = blogger;
+	}
 }
