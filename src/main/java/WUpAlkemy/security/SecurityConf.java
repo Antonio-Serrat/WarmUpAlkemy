@@ -8,8 +8,8 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import WUpAlkemy.service.UserDetailsIm;
 
@@ -28,10 +28,10 @@ public class SecurityConf extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable().addFilterAfter(new JwtAuth(), UsernamePasswordAuthenticationFilter.class)
-				.authorizeRequests().antMatchers(HttpMethod.POST, "/", "/GET/**", "/POST/auth/**").permitAll()
-//				.antMatchers("/POST/posts", "/PATCH/**").hasRole("USER").antMatchers("/DELETE/**").hasAnyRole("ADMIN")
-				.anyRequest().authenticated().and().formLogin().permitAll().and().logout().logoutSuccessUrl("/");
+		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().cors().and().csrf()
+				.disable().authorizeRequests().antMatchers(HttpMethod.POST, "/", "/view/**", "/auth/**").permitAll()
+				.anyRequest().authenticated().and().addFilter(new JWTAuthen(authenticationManager()))
+				.addFilter(new JWTAuthorize(authenticationManager()));
 
 	}
 
