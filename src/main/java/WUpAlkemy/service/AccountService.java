@@ -51,12 +51,12 @@ public class AccountService {
 		return roleRepo.findById(id);
 	}
 
-	public void saveRole(Account account) {
-		accRepo.save(account);
+	public void saveRole(Role role) {
+		roleRepo.save(role);
 	}
 
 	public void deleteRoleById(Long id) {
-		accRepo.deleteById(id);
+		roleRepo.deleteById(id);
 	}
 
 }
