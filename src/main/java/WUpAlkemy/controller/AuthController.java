@@ -20,10 +20,15 @@ public class AuthController {
 
 	@Autowired
 	PasswordEncoder bcrypt;
-	@Autowired
+
 	private AccountService serviceAcc;
-	@Autowired
 	private BloggerService serviceBlgr;
+
+	@Autowired
+	public AuthController(AccountService serviceAcc, BloggerService serviceBlgr) {
+		this.serviceAcc = serviceAcc;
+		this.serviceBlgr = serviceBlgr;
+	}
 
 	@PostMapping(value = "/sign_up")
 	public void signUp(@RequestParam("userame") String username, @RequestParam("password") String pass) {

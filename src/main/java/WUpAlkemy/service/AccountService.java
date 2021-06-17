@@ -18,12 +18,8 @@ public class AccountService {
 	private RoleRepository roleRepo;
 
 	@Autowired
-	public AccountService(AccountRepository accRepo) {
+	public AccountService(AccountRepository accRepo, RoleRepository roleRepo) {
 		this.accRepo = accRepo;
-	}
-
-	@Autowired
-	public AccountService(RoleRepository roleRepo) {
 		this.roleRepo = roleRepo;
 	}
 
