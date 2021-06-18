@@ -20,6 +20,7 @@ public class PostService {
 	}
 
 	public List<Post> findAll() {
+
 		return (List<Post>) postRepo.findAll();
 	}
 
@@ -33,6 +34,18 @@ public class PostService {
 
 	public void deleteById(Long id) {
 		postRepo.deleteById(id);
+	}
+
+	public List<Post> findByTitle(String title) {
+		return postRepo.findByTitle(title);
+	}
+
+	public List<Post> findByCategory(String category) {
+		return postRepo.findByCategory(category);
+	}
+
+	public List<Post> findByTitleAndCategory(String title, String category) {
+		return postRepo.findByTitleAndCategory(title, category);
 	}
 
 }

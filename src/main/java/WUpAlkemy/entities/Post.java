@@ -28,7 +28,7 @@ public class Post implements Serializable {
 	private String title;
 	private String contained;
 	private String category;
-	private Date date;
+	private Date date = new Date();
 	private String ImageUrl;
 	private Blogger blogger;
 
