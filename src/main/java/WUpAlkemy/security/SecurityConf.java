@@ -10,6 +10,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import WUpAlkemy.service.UserDetailsIm;
 
@@ -29,8 +32,12 @@ public class SecurityConf extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().cors().and().csrf()
-				.disable().authorizeRequests().antMatchers(HttpMethod.POST, "/", "/view/**", "/auth/**").permitAll()
-				.anyRequest().authenticated().and().addFilter(new JWTAuthen(authenticationManager()))
+				.disable().authorizeRequests().antMatchers(HttpMethod.POST, "/", "/login", "/auth/**").permitAll().and()
+				.authorizeRequests().antMatchers(HttpMethod.GET, "/view/**").permitAll().and().authorizeRequests()
+				.antMatchers(HttpMethod.POST, "/view/posts").hasAnyRole("ROLE_USER").and().authorizeRequests()
+				.antMatchers(HttpMethod.DELETE, "/view/posts/:id").hasAnyRole("ROLE_USER").and().authorizeRequests()
+				.antMatchers(HttpMethod.PATCH, "/view/posts/:id").hasAnyRole("ROLE_USER").anyRequest().authenticated()
+				.and().addFilter(new JWTAuthen(authenticationManager()))
 				.addFilter(new JWTAuthorize(authenticationManager()));
 
 	}
@@ -42,5 +49,12 @@ public class SecurityConf extends WebSecurityConfigurerAdapter {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Bean
+	CorsConfigurationSource corsConfigurationSource() {
+		final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
+		return source;
 	}
 }
