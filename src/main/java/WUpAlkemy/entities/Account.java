@@ -37,8 +37,6 @@ public class Account implements Serializable {
 	private Blogger blogger;
 
 	private String username;
-
-	private String email = username;
 	private String password;
 
 	public void setOwner(Blogger blogger) {
